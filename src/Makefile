@@ -3,13 +3,14 @@
 
 CC = $(CROSS_COMPILE)gcc
 CFLAGS = -Wall -Werror
-SRCS = main.c 
+SRCS = main.c timer.c 
+LIBRARY = -lpthread -lrt -lm
 OBJS = $(SRCS:.c=.o) #replace .c file 
-TARGET = $(SRCS:.c=) #replace .c with nothing"" for eg. writer.c => writer
+TARGET = main#$(SRCS:.c=) #replace .c with nothing"" for eg. writer.c => writer
 
 all: $(TARGET)
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS)
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) $(LIBRARY)
 
 .c.o:
 	$(CC) -c  $(SRCS)
