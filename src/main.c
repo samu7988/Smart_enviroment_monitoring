@@ -1,12 +1,10 @@
-#include <stdio.h>
-#include <syslog.h>
+/**
+* Simple example for C project build
+*/
 
-int main(char argc, char* argv[])
+#include <stdio.h>
+
+int main(void)
 {
-	openlog("Hello world", LOG_DEBUG, LOG_DAEMON);
- 	printf("sayali helloworld");	
-	syslog(LOG_ERR,"Hello world\n\r");
-        closelog();
-   	return 0;
-   
+	printf("Hello and welcome to ECEN5013!\n");
 }
