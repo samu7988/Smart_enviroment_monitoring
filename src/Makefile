@@ -3,7 +3,7 @@
 
 CC = $(CROSS_COMPILE)gcc
 CFLAGS = -Wall -Werror
-SRCS = main.c timer.c i2c.c temperature_sensor.c
+SRCS = main.c timer.c i2c.c temperature_sensor.c lux_sensor.c
 LIBRARY = -lpthread -lrt -lm
 OBJS = $(SRCS:.c=.o) #replace .c file 
 TARGET = main#$(SRCS:.c=) #replace .c with nothing"" for eg. writer.c => writer

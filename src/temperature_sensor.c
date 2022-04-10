@@ -101,7 +101,7 @@ bool read_temperature_value(double* processed_value, temp_unit_type_t request)
         return status;
     }
 
-    //swap values
+    //swap values for further processing 
     data[0] = data[0] ^ data[1];
     data[1] = data[0] ^ data[1];
     data[0] = data[0] ^ data[1];
