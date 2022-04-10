@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <signal.h>
 #include <time.h>
+#include "temperature_sensor.h"
 
 struct sigevent signal_spec;
 timer_t timer_id;
@@ -10,6 +11,9 @@ struct itimerspec timer_setting;
 void timer_handler(union sigval timer_data)
 {
     printf("\n\rTimer is called every 5 sec");
+	double processed_val =0.0;
+	read_temperature_value(&processed_val,TEMP_CELSIUS);
+	printf("\n\rTemperature value: %lf",processed_val);
 }
 
 
