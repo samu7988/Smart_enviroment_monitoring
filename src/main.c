@@ -12,13 +12,10 @@
 int main(void)
 {
 	uint8_t buffer[2] = {0xFE, 0x8A};
-	uint8_t receive_data[2] = {0};
+	uint16_t receive_data = 0;
 	i2c_write(TEMP_SENSOR_ADDRESS,THIGH_REG, buffer, 2);
-	i2c_read(TEMP_SENSOR_ADDRESS,THIGH_REG,receive_data,2);
-	for(int i = 0; i < 2; i++)
-	{
-		printf("\n\rReceive data: %u",receive_data[i]);
-	}
+	i2c_read(TEMP_SENSOR_ADDRESS,THIGH_REG,&receive_data,2);
+	printf("\n\rMain receive data: %x", receive_data);
 	//time_create();
 	printf("Hello and welcome to ECEN5013!\n");
 	while(1);
