@@ -43,7 +43,7 @@
  *
  * @return status of I2C operation
  *********************************************************************************************/
-bool i2c_read(uint8_t slave_address, uint8_t reg_addr,uint16_t* buffer,uint8_t num_bytes)
+bool i2c_read(uint8_t slave_address, uint8_t reg_addr,uint8_t* buffer,uint8_t num_bytes)
 {   
     // to open actual I2C bus
     int fd = open("/dev/i2c-2", O_RDWR);
@@ -72,13 +72,13 @@ bool i2c_read(uint8_t slave_address, uint8_t reg_addr,uint16_t* buffer,uint8_t n
         printf("read failed: %s\n",strerror(errno));
         return 1;  
     }
-    printf("\n\rRecv data: %x",*buffer);
 
-    // for(int i = 0; i < num_bytes; i++)
-    // {
-    //     printf("0x%02X\n", buffer[i]);
-    // }
+    for(int i = 0; i < num_bytes; i++)
+    {
+        printf("0x%02X\n", buffer[i]);
+    }
     close(fd);
+
     return 0;
 }
 
@@ -116,7 +116,7 @@ bool i2c_write(uint8_t slave_address, uint8_t reg_addr,uint8_t* buffer, uint8_t 
     }
 
     data_to_send[0] = reg_addr;
-    for(int i = 1; i < num_bytes; i++)
+    for(int i = 1; i <= num_bytes; i++)
     {
         data_to_send[i] = buffer[i - 1];
     }
