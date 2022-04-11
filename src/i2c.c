@@ -86,12 +86,12 @@ bool i2c_read(uint8_t slave_address, uint8_t reg_addr,uint8_t* buffer,uint8_t nu
     msgs[0].buf = &reg_addr;
 
     msgs[1].addr = slave_address;
-    msgs[1].flags = I2C_M_RD | I2C_M_NOSTART;
+    msgs[1].flags = I2C_M_RD ;
     msgs[1].len = 2;
     msgs[1].buf = buffer;
 
     msgset[0].msgs = msgs;
-    msgset[0].nmsgs = 3;
+    msgset[0].nmsgs = 2;
 
     if (ioctl(fd, I2C_RDWR, &msgset) < 0) 
     {
