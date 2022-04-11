@@ -13,7 +13,7 @@ void timer_handler(union sigval timer_data)
 {
     printf("\n\rTimer is called every 5 sec");
 	uint8_t data[2] = {0};
-	bool status = i2c_read(LUX_SENSOR_ADDRESS,CONFIG_REG,data,2);
+	bool status = i2c_read(LUX_SENSOR_ADDRESS,0x04,data,2);
     printf("\n\r After power on data read: data[0]:%u, data[1]:%u",data[0],data[1]);
 
 	// double processed_val =0.0;
