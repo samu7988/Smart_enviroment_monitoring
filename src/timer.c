@@ -12,13 +12,13 @@ struct itimerspec timer_setting;
 void timer_handler(union sigval timer_data)
 {
     printf("\n\rTimer is called every 5 sec");
-	uint8_t data[2] = {0};
-	bool status = i2c_read(LUX_SENSOR_ADDRESS,0x04,data,2);
-    printf("\n\r After power on data read: data[0]:%u, data[1]:%u",data[0],data[1]);
+	// uint8_t data[2] = {0};
+	// bool status = i2c_read(LUX_SENSOR_ADDRESS,0x04,data,2);
+    // printf("\n\r After power on data read: data[0]:%u, data[1]:%u",data[0],data[1]);
 
-	// double processed_val =0.0;
-	// read_temperature_value(&processed_val,TEMP_CELSIUS);
-	// printf("\n\rTemperature value: %lf",processed_val);
+	double processed_val =0.0;
+	read_temperature_value(&processed_val,TEMP_CELSIUS);
+	printf("\n\rTemperature value: %lf",processed_val);
 }
 
 

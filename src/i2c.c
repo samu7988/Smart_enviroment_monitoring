@@ -74,8 +74,7 @@ bool i2c_read(uint8_t slave_address, uint8_t reg_addr,uint8_t* buffer,uint8_t nu
     //     return 1;  
     // }
 
-
-
+    //Reference: https://gist.github.com/JamesDunne/9b7fbedb74c22ccc833059623f47beb7
     int retval;
     struct i2c_msg msgs[2];
     struct i2c_rdwr_ioctl_data msgset[1];
@@ -87,7 +86,7 @@ bool i2c_read(uint8_t slave_address, uint8_t reg_addr,uint8_t* buffer,uint8_t nu
 
     msgs[1].addr = slave_address;
     msgs[1].flags = I2C_M_RD ;
-    msgs[1].len = 2;
+    msgs[1].len = num_bytes;
     msgs[1].buf = buffer;
 
     msgset[0].msgs = msgs;
