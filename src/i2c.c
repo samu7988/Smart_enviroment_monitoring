@@ -27,6 +27,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include "i2c.h"
+#include <linux/i2c.h>
 /**************************************************************************************
 *					GLOBAL VARIABLE
 *******************************************************************************************/
@@ -57,31 +58,55 @@ bool i2c_read(uint8_t slave_address, uint8_t reg_addr,uint8_t* buffer,uint8_t nu
 
     // slave_address = (slave_address ) | (0x01);
     //to get the device from specific bus(specified from slave addr, and reg_address)
-    if (ioctl(fd, I2C_SLAVE, slave_address) < 0) 
+    // if (ioctl(fd, I2C_SLAVE, slave_address) < 0) 
+    // {
+    //     printf("ioctl error: %s\n", strerror(errno));
+    //     return 1;
+    // }
+    // if(write(fd, &reg_addr, 1) < 0) //send reg address as 1st byte
+    // {
+    //     printf("write failed: %s\n",strerror(errno));
+    //     return 1;
+    // }
+    // if(read(fd, buffer, num_bytes) < 0) //actual read
+    // {
+    //     printf("read failed: %s\n",strerror(errno));
+    //     return 1;  
+    // }
+
+
+
+    int retval;
+    struct i2c_msg msgs[2];
+    struct i2c_rdwr_ioctl_data msgset[1];
+
+    msgs[0].addr = slave_address;
+    msgs[0].flags = 0;
+    msgs[0].len = 1;
+    msgs[0].buf = &reg_addr;
+
+    msgs[1].addr = slave_address;
+    msgs[1].flags = I2C_M_RD | I2C_M_NOSTART;
+    msgs[1].len = 2;
+    msgs[1].buf = buffer;
+
+    msgset[0].msgs = msgs;
+    msgset[0].nmsgs = 3;
+
+    if (ioctl(fd, I2C_RDWR, &msgset) < 0) 
     {
-        printf("ioctl error: %s\n", strerror(errno));
-        return 1;
-    }
-    if(write(fd, &reg_addr, 1) < 0) //send reg address as 1st byte
-    {
-        printf("write failed: %s\n",strerror(errno));
-        return 1;
-    }
-    num_bytes = 1;
-    if(read(fd, buffer, num_bytes) < 0) //actual read
-    {
-        printf("read failed: %s\n",strerror(errno));
-        return 1;  
+        perror("ioctl(I2C_RDWR) in i2c_read");
+        return -1;
     }
 
     for(int i = 0; i < num_bytes; i++)
     {
         printf("0x%02X\n", buffer[i]);
     }
+ 
     close(fd);
 
-    return 0;
-}
+    return 0;}
 
 /***********************************************************************************************
  * @brief I2c write
