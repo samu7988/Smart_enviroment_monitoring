@@ -62,7 +62,7 @@ bool i2c_read(uint8_t slave_address, uint8_t reg_addr,uint8_t* buffer,uint8_t nu
         printf("ioctl error: %s\n", strerror(errno));
         return 1;
     }
-
+    reg_addr = reg_addr | 0x01;
     if(write(fd, &reg_addr, 1) < 0) //send reg address as 1st byte
     {
         printf("write failed: %s\n",strerror(errno));
