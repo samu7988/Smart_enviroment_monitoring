@@ -45,8 +45,6 @@ bool enable_lux_sensor()
     // data[0] &= ~(0x01);
     status = i2c_write(LUX_SENSOR_ADDRESS,CONFIG_REG,data,2);
     
-    // status = i2c_read(LUX_SENSOR_ADDRESS,CONFIG_REG,data,2);
-    printf("\n\r After power on data read: data[0]:%u, data[1]:%u",data[0],data[1]);
     return status;
 
 }

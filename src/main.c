@@ -21,9 +21,10 @@ int main(void)
 	// {
 	// 	printf("\n\rReceive data: %u",receive_data[i]);
 	// }
-	// time_create();
 
 	enable_lux_sensor();
+	time_create();
+
 	printf("Hello and welcome to ECEN5013!\n");
 	while(1);
 }
