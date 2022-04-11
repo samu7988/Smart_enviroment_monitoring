@@ -34,6 +34,16 @@
 /**********************************************************************************
 *				FUNCTION DEFINITION
 ***************************************************************************************/
+
+/***********************************************************************************************
+ * @brief I2c read
+ *
+ *Responsible for implementing I2c read function
+ *
+ * @param address: address of pointer register TMP102
+ *
+ * @return status of I2C operation
+ *********************************************************************************************/
 bool i2c_read(uint8_t slave_address, uint8_t reg_addr,uint8_t* buffer,uint8_t num_bytes)
 {   
     // to open actual I2C bus
@@ -52,11 +62,8 @@ bool i2c_read(uint8_t slave_address, uint8_t reg_addr,uint8_t* buffer,uint8_t nu
         return 1;
     }
 
-    uint8_t command_slave_packet[2] = {0};
-    command_slave_packet[0] = reg_addr;
-    command_slave_packet[1] = slave_address;
-    
-    if(write(fd, command_slave_packet, 2) < 0) //send reg address as 1st byte
+    reg_addr = (reg_addr << 1) | (0x01);
+    if(write(fd, &reg_addr, 1) < 0) //send reg address as 1st byte
     {
         printf("write failed: %s\n",strerror(errno));
         return 1;
@@ -76,53 +83,6 @@ bool i2c_read(uint8_t slave_address, uint8_t reg_addr,uint8_t* buffer,uint8_t nu
 
     return 0;
 }
-/***********************************************************************************************
- * @brief I2c read
- *
- *Responsible for implementing I2c read function
- *
- * @param address: address of pointer register TMP102
- *
- * @return status of I2C operation
- *********************************************************************************************/
-// bool i2c_read(uint8_t slave_address, uint8_t reg_addr,uint8_t* buffer,uint8_t num_bytes)
-// {   
-//     // to open actual I2C bus
-//     int fd = open("/dev/i2c-2", O_RDWR);
-
-//     if (fd < 0) 
-//     {
-//         printf("Error opening file: %s\n", strerror(errno));
-//         return 1;
-//     }
-
-//     //to get the device from specific bus(specified from slave addr, and reg_address)
-//     if (ioctl(fd, I2C_SLAVE, slave_address) < 0) 
-//     {
-//         printf("ioctl error: %s\n", strerror(errno));
-//         return 1;
-//     }
-
-//     if(write(fd, &reg_addr, 1) < 0) //send reg address as 1st byte
-//     {
-//         printf("write failed: %s\n",strerror(errno));
-//         return 1;
-//     }
-    
-//     if(read(fd, buffer, num_bytes) < 0) //actual read
-//     {
-//         printf("read failed: %s\n",strerror(errno));
-//         return 1;  
-//     }
-
-//     for(int i = 0; i < num_bytes; i++)
-//     {
-//         printf("0x%02X\n", buffer[i]);
-//     }
-//     close(fd);
-
-//     return 0;
-// }
 
 /***********************************************************************************************
  * @brief I2c write
