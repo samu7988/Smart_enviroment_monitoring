@@ -62,16 +62,18 @@ bool i2c_read(uint8_t slave_address, uint8_t reg_addr,uint8_t* buffer,uint8_t nu
         printf("ioctl error: %s\n", strerror(errno));
         return 1;
     }
-    uint8_t cmd_slave_packet[2] ={0};
-    cmd_slave_packet[0] = reg_addr;
-    cmd_slave_packet[1] = slave_address;
-    
-    if(write(fd, cmd_slave_packet, 2) < 0) //send reg address as 1st byte
+    if(write(fd, &reg_addr, 1) < 0) //send reg address as 1st byte
     {
         printf("write failed: %s\n",strerror(errno));
         return 1;
     }
     
+    if(write(fd, &slave_address, 1) < 0) //send reg address as 1st byte
+    {
+        printf("write failed: %s\n",strerror(errno));
+        return 1;
+    }
+
     if(read(fd, buffer, num_bytes) < 0) //actual read
     {
         printf("read failed: %s\n",strerror(errno));
