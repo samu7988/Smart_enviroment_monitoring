@@ -37,7 +37,7 @@
 bool enable_lux_sensor()
 {
     bool status = 0;
-    uint8_t data[2] = {0x50,0x11};
+    uint8_t data[2] = {0x52,0x11};
     //uint16_t data = 0x11F0
     // status = i2c_read(LUX_SENSOR_ADDRESS,CONFIG_REG,data,2);
     // printf("\n\r before power on data read: data[0]:%u, data[1]:%u",data[0],data[1]);
