@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include "temperature_sensor.h"
 #include "lux_sensor.h"
+#include "server.h"
 
 #define TEMP_SENSOR_ADDRESS (0x48)
 #define THIGH_REG		(0x03)
@@ -22,8 +23,9 @@ int main(void)
 	// 	printf("\n\rReceive data: %u",receive_data[i]);
 	// }
 
-	enable_lightsensor();
-	time_create();
+	// enable_lightsensor();
+	// time_create();
+	server_init();
 
 	printf("Hello and welcome to ECEN5013!\n");
 	while(1);
