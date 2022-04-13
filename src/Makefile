@@ -4,16 +4,22 @@
 CC = $(CROSS_COMPILE)gcc
 CFLAGS = -Wall -Werror
 SRCS = main.c timer.c i2c.c temperature_sensor.c lux_sensor.c
+CLIENT_SRC = client.c
 LIBRARY = -lpthread -lrt -lm
 OBJS = $(SRCS:.c=.o) #replace .c file 
-TARGET = main#$(SRCS:.c=) #replace .c with nothing"" for eg. writer.c => writer
+TARGET = smart_environment #$(SRCS:.c=) #replace .c with nothing"" for eg. writer.c => writer
+CLIENT = client
 
-all: $(TARGET)
+all: $(TARGET) $(CLIENT)
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) $(LIBRARY)
 
+$(CLIENT):
+	gcc $(CFLAGS) -o $(CLIENT) client.o $(LIBRARY)
+
 .c.o:
-	$(CC) -c  $(SRCS)
+	$(CC) -c  $(SRCS) 
+	gcc -c $(CLIENT_SRC)
 
 clean:
-	rm -f $(TARGET) *.o
+	rm -f $(TARGET) *.o $(CLIENT)
