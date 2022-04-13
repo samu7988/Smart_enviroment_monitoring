@@ -22,7 +22,7 @@ int main(void)
 	// 	printf("\n\rReceive data: %u",receive_data[i]);
 	// }
 
-	enable_lux_sensor();
+	enable_lightsensor();
 	time_create();
 
 	printf("Hello and welcome to ECEN5013!\n");

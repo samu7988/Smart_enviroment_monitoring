@@ -34,32 +34,25 @@
  *
  * @return 
  *********************************************************************************************/
-bool enable_lux_sensor()
+
+
+bool enable_lightsensor()
 {
     bool status = 0;
-    uint8_t data[2] = {0x52,0x11};
-    //uint16_t data = 0x11F0
-    // status = i2c_read(LUX_SENSOR_ADDRESS,CONFIG_REG,data,2);
-    // printf("\n\r before power on data read: data[0]:%u, data[1]:%u",data[0],data[1]);
-
-    // data[0] &= ~(0x01);
+    uint8_t data[2] = {0x00,0x00};
     status = i2c_write(LUX_SENSOR_ADDRESS,CONFIG_REG,data,2);
-    
-    data[0] = 0x6f;
-    data[1] = 0x5f;
-    status = i2c_write(LUX_SENSOR_ADDRESS,0x01,data,2);
-
-    uint8_t recv_data[2] = {0};
-    status = i2c_read(LUX_SENSOR_ADDRESS, 0x01, recv_data,2);
-    printf("\n\r Register 1 data: data[0]:%u, data[1]:%u",recv_data[0],recv_data[1]);
-
     return status;
 
 }
 
-
-bool read_light_value()
+bool read_light_value(double* light_val)
 {
-
+	uint8_t data[2] = {0};
+	bool status = i2c_read(LUX_SENSOR_ADDRESS,ALS_REG,data,2);
+    printf("\n\r After power on data read: data[0]:%u, data[1]:%u",data[0],data[1]);
+    uint16_t total_val = data[0] | (data[1] << 8);
+    *light_val = (float)total_val * 0.0576;
+    printf("\n\rCollected val: %lf",*light_val);
+    return status;
 }
 
