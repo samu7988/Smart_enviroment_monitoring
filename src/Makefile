@@ -7,7 +7,7 @@ SRCS = main.c timer.c i2c.c temperature_sensor.c lux_sensor.c
 CLIENT_SRC = client.c
 LIBRARY = -lpthread -lrt -lm
 OBJS = $(SRCS:.c=.o) #replace .c file 
-TARGET = smart_environment #$(SRCS:.c=) #replace .c with nothing"" for eg. writer.c => writer
+TARGET = main #$(SRCS:.c=) #replace .c with nothing"" for eg. writer.c => writer
 CLIENT = client
 
 all: $(TARGET) 
