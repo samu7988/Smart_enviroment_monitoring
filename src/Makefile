@@ -10,19 +10,19 @@ OBJS = $(SRCS:.c=.o) #replace .c file
 TARGET = smart_environment #$(SRCS:.c=) #replace .c with nothing"" for eg. writer.c => writer
 CLIENT = client
 
-all: $(TARGET) $(CLIENT)
+all: $(TARGET) 
+client: $(CLIENT)
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) $(LIBRARY)
 
-ifeq ($(CC),gcc)
-$(CLIENT):
-	gcc $(CFLAGS) -o $(CLIENT) client.o $(LIBRARY)
-endif
-
 .c.o:
 	$(CC) -c  $(SRCS) 
+
+
 ifeq ($(CC),gcc)
-	gcc -c $(CLIENT_SRC)
+$(CLIENT):
+		gcc -c $(CLIENT_SRC)
+		gcc $(CFLAGS) -o $(CLIENT) client.o $(LIBRARY)
 endif
 
 clean:
