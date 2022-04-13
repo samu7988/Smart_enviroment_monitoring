@@ -14,12 +14,16 @@ all: $(TARGET) $(CLIENT)
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) $(LIBRARY)
 
+ifeq ($(CC),gcc)
 $(CLIENT):
 	gcc $(CFLAGS) -o $(CLIENT) client.o $(LIBRARY)
+endif
 
 .c.o:
 	$(CC) -c  $(SRCS) 
+ifeq ($(CC),gcc)
 	gcc -c $(CLIENT_SRC)
+endif
 
 clean:
 	rm -f $(TARGET) *.o $(CLIENT)

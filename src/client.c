@@ -19,7 +19,7 @@ int main()
     }
 
     server_address.sin_family = AF_INET;
-    server_address.sin_port = htons(7000);
+    server_address.sin_port = htons(6666);
     server_address.sin_addr.s_addr = inet_addr("127.0.0.1");
 
     int client_status = 0;
