@@ -47,8 +47,8 @@ bool server_init()
     }
     struct sockaddr_in  server_address;
     server_address.sin_family = AF_INET;
-    server_address.sin_addr.s_addr = INADDR_ANY;
-    server_address.sin_port = htons(6666);
+    server_address.sin_addr.s_addr = htonl(INADDR_ANY);
+    server_address.sin_port = htons(7000);
 
     int server_status = bind(server_fd, (struct sockaddr*)&server_address, sizeof(server_address));
     if(server_status)
@@ -72,6 +72,12 @@ bool server_init()
         return 1;
     }
 
+    printf("\n\raccept passed");
+
+    char msg[] = "sayali";
+    send(server_status,msg,sizeof(msg),0);
+
+    printf("\n\r message sent");
     while(1)
     {
         printf("\n\rserver is connected");
