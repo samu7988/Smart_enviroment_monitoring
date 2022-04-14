@@ -48,12 +48,12 @@ int main()
    
     // assign IP, PORT
     servaddr.sin_family = AF_INET;
-    servaddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+    servaddr.sin_addr.s_addr = inet_addr("192.168.7.2");
     servaddr.sin_port = htons(PORT);
    
     // connect the client socket to server socket
     if (connect(sockfd, (SA*)&servaddr, sizeof(servaddr)) != 0) {
-        printf("connection with the server failed...\n");
+        perror("connection with the server failed...\n");
         exit(0);
     }
     else
