@@ -9,7 +9,8 @@
 #include "temperature_sensor.h"
 #include "lux_sensor.h"
 #include "server.h"
-
+#include <pthread.h>
+#include "thread.h"
 #define TEMP_SENSOR_ADDRESS (0x48)
 #define THIGH_REG		(0x03)
 int main(void)
@@ -23,10 +24,18 @@ int main(void)
 	// 	printf("\n\rReceive data: %u",receive_data[i]);
 	// }
 
-	// enable_lightsensor();
-	// time_create();
+	enable_lightsensor();
+	time_create();
 	//server_init();
+	pthread_t temperature_thread;
+	pthread_t light_thread;
 
+	pthread_create(&temperature_thread, NULL, temperature_sensor_thread, NULL);
+	pthread_create(&light_thread, NULL, light_sensor_thread, NULL);
+
+	pthread_join(temperature_thread, NULL);
+	pthread_join(light_thread, NULL);
+	
 	printf("Hello and welcome to ECEN5013!\n");
 	while(1);
 }
