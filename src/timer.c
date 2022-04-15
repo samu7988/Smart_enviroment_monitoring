@@ -41,3 +41,11 @@ void time_create()
 	timer_setting.it_interval.tv_nsec = 0;
 	timer_settime(timer_id,0,&timer_setting,NULL);
 }
+
+
+double get_time()
+{
+	struct timespec current_time;
+	clock_gettime(CLOCK_MONOTONIC, &current_time);
+	return ((current_time.tv_sec * (1000.0)) + (current_time.tv_nsec/1000000.0));
+}

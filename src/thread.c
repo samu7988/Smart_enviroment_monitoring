@@ -41,10 +41,12 @@ void* temperature_sensor_thread(void* param)
 {
     bool status = 0;
     double temperature = 0.0;
+    double current_time = 0.0;
     while(1)
     {
         if(temp_sensor_time_expire == 1)
         {
+            current_time = get_time();
             status = read_temperature_value(&temperature,TEMP_CELSIUS);
 
             if(status)
@@ -52,7 +54,7 @@ void* temperature_sensor_thread(void* param)
                 printf("\n\rread_temperature_value() returned 1");
             }
 
-            printf("\n\rTemperature value: %lf",temperature);
+            printf("\n\r[%lf]Temperature value: %lf",current_time,temperature);
             temp_sensor_time_expire = 0;
         }
     }
@@ -63,10 +65,12 @@ void* light_sensor_thread(void* param)
 {
     bool status = 0;
     double light_value = 0.0;
+    double current_time = 0.0;
     while(1)
     {
         if(light_sensor_time_expire == 1)
         {
+            current_time = get_time();
             status = read_light_value(&light_value);
 
             if(status)
@@ -74,7 +78,7 @@ void* light_sensor_thread(void* param)
                 printf("\n\rread_light_value() returned 1");
             }
 
-            printf("\n\rlight value: %lf",light_value);
+            printf("\n\r[%lf]light value: %lf",current_time,light_value);
             light_sensor_time_expire = 0;
         }
     }
