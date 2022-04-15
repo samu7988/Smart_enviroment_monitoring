@@ -37,7 +37,7 @@
  * @return 
  *********************************************************************************************/
 
-void* temperature_sensor_thread(void* param)
+void* temperature_sensor_thread()
 {
     bool status = 0;
     double temperature = 0.0;
@@ -61,7 +61,7 @@ void* temperature_sensor_thread(void* param)
 }
 
 
-void* light_sensor_thread(void* param)
+void* light_sensor_thread()
 {
     bool status = 0;
     double light_value = 0.0;
