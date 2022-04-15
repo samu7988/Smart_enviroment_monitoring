@@ -18,10 +18,12 @@
 #include "i2c.h"
 #include "lux_sensor.h"
 #include <stdio.h>
+#include <pthread.h>
+#include "synchronization.h"
 /**************************************************************************************
 *					GLOBAL VARIABLE
 *******************************************************************************************/
-
+pthread_mutex_t i2c_mutex = PTHREAD_MUTEX_INITIALIZER;
 /**********************************************************************************
 *				FUNCTION DEFINITION
 ***************************************************************************************/
@@ -47,12 +49,14 @@ bool enable_lightsensor()
 
 bool read_light_value(double* light_val)
 {
+    pthread_mutex_lock(&i2c_mutex);
 	uint8_t data[2] = {0};
 	bool status = i2c_read(LUX_SENSOR_ADDRESS,ALS_REG,data,2);
     printf("\n\r After power on data read: data[0]:%u, data[1]:%u",data[0],data[1]);
     uint16_t total_val = data[0] | (data[1] << 8);
     *light_val = (float)total_val * 0.0576;
     printf("\n\rCollected val: %lf",*light_val);
+    pthread_mutex_unlock(&i2c_mutex);
     return status;
 }
 
