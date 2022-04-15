@@ -14,7 +14,6 @@ struct itimerspec timer_setting;
 
 void timer_handler(union sigval timer_data)
 {
-    printf("\n\rTimer is called every 5 sec");
 
 
 	// double processed_val =0.0;
