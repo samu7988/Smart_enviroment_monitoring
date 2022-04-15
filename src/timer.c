@@ -5,6 +5,9 @@
 #include "temperature_sensor.h"
 #include "lux_sensor.h"
 #include "i2c.h"
+
+bool temp_sensor_time_expire = 0;
+bool light_sensor_time_expire = 0;
 struct sigevent signal_spec;
 timer_t timer_id;
 struct itimerspec timer_setting;
@@ -19,6 +22,9 @@ void timer_handler(union sigval timer_data)
 	// printf("\n\rTemperature value: %lf",processed_val);
 	double light_val = 0.0;
 	read_light_value(&light_val);
+
+	temp_sensor_time_expire = 1;
+	light_sensor_time_expire = 1;
 	
 }
 
@@ -29,9 +35,9 @@ void time_create()
     signal_spec.sigev_notify_function = &timer_handler;
     signal_spec.sigev_value.sival_ptr = "Timer create";
 	timer_create(CLOCK_REALTIME,&signal_spec,&timer_id);
-	timer_setting.it_value.tv_sec =1;
+	timer_setting.it_value.tv_sec =5;
 	timer_setting.it_value.tv_nsec = 0;
-	timer_setting.it_interval.tv_sec = 1;
+	timer_setting.it_interval.tv_sec = 5;
 	timer_setting.it_interval.tv_nsec = 0;
 	timer_settime(timer_id,0,&timer_setting,NULL);
 }
