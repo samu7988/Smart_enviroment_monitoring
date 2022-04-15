@@ -20,8 +20,8 @@ void timer_handler(union sigval timer_data)
 	// double processed_val =0.0;
 	// read_temperature_value(&processed_val,TEMP_CELSIUS);
 	// printf("\n\rTemperature value: %lf",processed_val);
-	double light_val = 0.0;
-	read_light_value(&light_val);
+	// double light_val = 0.0;
+	// read_light_value(&light_val);
 
 	temp_sensor_time_expire = 1;
 	light_sensor_time_expire = 1;

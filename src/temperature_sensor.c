@@ -40,14 +40,12 @@
 bool temperature_write_register(uint8_t reg_address,uint8_t* data, uint8_t num_bytes)
 {
     bool status = 0;
-    pthread_mutex_lock(&i2c_mutex);
     status = i2c_write(TMP102_SENSOR_ADDRESS,reg_address,data, num_bytes);
     if(status == 1)
     {
         printf("\n\rtemperature_write_register() failed");
         return 1;
     }
-    pthread_mutex_unlock(&i2c_mutex);
     return status;
 }
 
@@ -97,10 +95,13 @@ bool read_temperature_value(double* processed_value, temp_unit_type_t request)
 {
     bool status = 0;
     uint8_t data[2] = {0};
+    pthread_mutex_lock(&i2c_mutex);
+
     status = i2c_read(TMP102_SENSOR_ADDRESS,TEMPERATURE_REGISTER,data,2);
     if(status == 1)
     {
         printf("\n\rread_temperature_value() failed");
+        pthread_mutex_unlock(&i2c_mutex);
         return status;
     }
 
@@ -110,5 +111,6 @@ bool read_temperature_value(double* processed_value, temp_unit_type_t request)
     data[0] = data[0] ^ data[1];
 
     status = process_raw_temp_values(data,processed_value,request);
+    pthread_mutex_unlock(&i2c_mutex);
     return status;
 }
