@@ -42,6 +42,7 @@ int main(void)
 
 	pthread_join(temperature_thread, NULL);
 	pthread_join(light_thread, NULL);
+	pthread_join(logger_thread, NULL);
 	
 	printf("Hello and welcome to ECEN5013!\n");
 	while(1);

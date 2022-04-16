@@ -41,7 +41,7 @@ typedef struct
 extern pthread_mutex_t i2c_mutex ;
 extern pthread_mutex_t msg_queue_mutex ;
 extern pthread_mutex_t log_file_mutex;
-extern mqd_t* msg_queue_logger;
+extern mqd_t msg_queue_logger;
 extern FILE* log_file;
 /***************************************************************************************
 *				FUNCTION PROTOTYPE
