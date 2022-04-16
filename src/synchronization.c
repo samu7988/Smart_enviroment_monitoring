@@ -16,13 +16,31 @@
 *					HEADER FILE SECTION
 *****************************************************************************************/
 #include <pthread.h>
+#include <signal.h>
+#include <stdio.h>
+#include "synchronization.h"
+#include <mqueue.h>
 /**************************************************************************************
 *					GLOBAL VARIABLE
 *******************************************************************************************/
-
+#define MAX_MSG (9)
+mqd_t* msg_queue_logger = NULL;
 /**********************************************************************************
 *				FUNCTION DEFINITION
 ***************************************************************************************/
+void terminate_signal_handler(int num)
+{
+    if(num == SIGINT)
+    {
+        printf("\n\rTerminate all process");
+        pthread_mutex_unlock(&i2c_mutex);
+        mq_close(msg_queue_logger);
+        mq_unlink("/msgqueue_logger");                           
+
+
+    }
+}
+
 /***********************************************************************************************
  * @brief 
  *
@@ -33,4 +51,25 @@
  * @return 
  *********************************************************************************************/
 
+void register_signal_handler()
+{
+    struct sigaction signals;
+    signals.sa_flags = 0;
+    signals.sa_handler = terminate_signal_handler;
+    sigemptyset(&signals.sa_mask);
+    sigaction(SIGINT,&signals,NULL);
+}
 
+void open_logger_message_queue()
+{
+    struct mq_attr msg_queue_attr;
+    msg_queue_attr.mq_maxmsg = MAX_MSG;
+    msg_queue_attr.mq_msgsize = sizeof(log_msg_t);
+
+    *msg_queue_logger = mq_open("/msgqueue_logger", O_CREAT | O_RDWR, 0666,&msg_queue_attr);
+    if(*msg_queue_logger == -1)
+    {
+        printf("\n\rFailed to open logger message queue");
+    }
+
+}

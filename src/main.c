@@ -29,9 +29,12 @@ int main(void)
 	//server_init();
 	pthread_t temperature_thread;
 	pthread_t light_thread;
+	pthread_t logger_thread;
 
 	pthread_create(&temperature_thread, NULL, temperature_sensor_thread, NULL);
 	pthread_create(&light_thread, NULL, light_sensor_thread, NULL);
+	pthread_create(&logger_thread, NULL, log_thread, NULL);
+
 
 	pthread_join(temperature_thread, NULL);
 	pthread_join(light_thread, NULL);
@@ -99,7 +102,7 @@ int main(void)
 
 // 	// assign IP, PORT
 // 	servaddr.sin_family = AF_INET;
-// 	servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+// 	servaddr.sin_addr.s_addr = inet_addr("10.0.0.68");
 // 	servaddr.sin_port = htons(PORT);
 
 // 	// Binding newly created socket to given IP and verification

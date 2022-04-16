@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include <stddef.h>
 #include "timer.h"
+#include "synchronization.h"
 /**************************************************************************************
 *					GLOBAL VARIABLE
 *******************************************************************************************/
@@ -40,21 +41,22 @@
 void* temperature_sensor_thread()
 {
     bool status = 0;
-    double temperature = 0.0;
-    double current_time = 0.0;
+    log_msg_t msg_packet = {0};
+
     while(1)
     {
         if(temp_sensor_time_expire == 1)
         {
-            current_time = get_time();
-            status = read_temperature_value(&temperature,TEMP_CELSIUS);
-
+            
+            msg_packet.id = TEMPERATURE_SENSOR;
+            msg_packet.time = get_time();
+            status = read_temperature_value(&msg_packet.sensor_val ,TEMP_CELSIUS);
             if(status)
             {
                 printf("\n\rread_temperature_value() returned 1");
             }
-
-            printf("\n\r[%lf]Temperature value: %lf",current_time,temperature);
+            mq_send(msg_queue_logger,(char*)&msg_packet, sizeof(log_msg_t),0)
+            //printf("\n\r[%lf]Temperature value: %lf",current_time,temperature);
             temp_sensor_time_expire = 0;
         }
     }
@@ -66,20 +68,36 @@ void* light_sensor_thread()
     bool status = 0;
     double light_value = 0.0;
     double current_time = 0.0;
+    thread_id_e thread_id = -1;
+    log_msg_t msg_packet = {0};
     while(1)
     {
         if(light_sensor_time_expire == 1)
         {
-            current_time = get_time();
-            status = read_light_value(&light_value);
+            msg_packet.time = get_time();
+            status  = read_light_value(&msg_packet.sensor_val);
+            msg_packet.id = LIGHT_SENSOR;
 
             if(status)
             {
                 printf("\n\rread_light_value() returned 1");
             }
+            mq_send(msg_queue_logger,(char*)&msg_packet, sizeof(log_msg_t),0)
 
-            printf("\n\r[%lf]light value: %lf",current_time,light_value);
+            // printf("\n\r[%lf]light value: %lf",current_time,light_value);
             light_sensor_time_expire = 0;
         }
     }
+}
+
+
+void* log_thread()
+{
+    log_msg_t recv_msg_packet = {0};
+    while(1)
+    {
+        mq_receive(msg_queue_logger, (char*)&recv_msg_packet, sizeof(log_msg_t), NULL);
+        
+    }
+
 }
