@@ -21,7 +21,6 @@ void timer_handler(union sigval timer_data)
 	// printf("\n\rTemperature value: %lf",processed_val);
 	// double light_val = 0.0;
 	// read_light_value(&light_val);
-	printf("\n\rTimer is firing every 5 second");
 	temp_sensor_time_expire = 1;
 	light_sensor_time_expire = 1;
 	

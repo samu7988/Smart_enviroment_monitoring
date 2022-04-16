@@ -63,7 +63,7 @@ void* temperature_sensor_thread()
             }
             pthread_mutex_unlock(&msg_queue_mutex);
 
-            printf("\n\r[%lf]Temperature value: %lf",msg_packet.time, msg_packet.sensor_val);
+            // printf("\n\r[%lf]Temperature value: %lf",msg_packet.time, msg_packet.sensor_val);
             temp_sensor_time_expire = 0;
         }
     }
@@ -97,7 +97,7 @@ void* light_sensor_thread()
             }
             pthread_mutex_unlock(&msg_queue_mutex);
 
-            printf("\n\r[%lf]light value: %lf",msg_packet.time,msg_packet.sensor_val);
+            // printf("\n\r[%lf]light value: %lf",msg_packet.time,msg_packet.sensor_val);
             light_sensor_time_expire = 0;
         }
     }
@@ -119,12 +119,12 @@ void* log_thread(void* arg)
         log_file = fopen(arg,"a+");
         if(recv_msg_packet.id == TEMPERATURE_SENSOR)
         {
-            printf("\n\r[%lf][%d] Temperature: %lf celsius",recv_msg_packet.time,recv_msg_packet.id, recv_msg_packet.sensor_val);
+            // printf("\n\r[%lf][%d] Temperature: %lf celsius",recv_msg_packet.time,recv_msg_packet.id, recv_msg_packet.sensor_val);
             fprintf(log_file,"\n\r[%lf][%d] Temperature: %lf celsius",recv_msg_packet.time,recv_msg_packet.id, recv_msg_packet.sensor_val);
         }
         else if(recv_msg_packet.id == LIGHT_SENSOR)
         {
-            printf("\n\r[%lf][%d] Light value: %lf ",recv_msg_packet.time,recv_msg_packet.id, recv_msg_packet.sensor_val);
+            // printf("\n\r[%lf][%d] Light value: %lf ",recv_msg_packet.time,recv_msg_packet.id, recv_msg_packet.sensor_val);
             fprintf(log_file,"\n\r[%lf][%d] Light value: %lf ",recv_msg_packet.time,recv_msg_packet.id, recv_msg_packet.sensor_val);
         }
         fclose(log_file);
