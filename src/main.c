@@ -14,7 +14,7 @@
 #include "synchronization.h"
 #define TEMP_SENSOR_ADDRESS (0x48)
 #define THIGH_REG		(0x03)
-int main(void)
+int main(int argc, char** argv)
 {
 	// uint8_t buffer[2] = {0xFE, 0x8A};
 	// uint8_t receive_data[2] = {0};
@@ -37,7 +37,7 @@ int main(void)
 
 	pthread_create(&temperature_thread, NULL, temperature_sensor_thread, NULL);
 	pthread_create(&light_thread, NULL, light_sensor_thread, NULL);
-	pthread_create(&logger_thread, NULL, log_thread, NULL);
+	pthread_create(&logger_thread, NULL, log_thread, argv[1]);
 
 
 	pthread_join(temperature_thread, NULL);

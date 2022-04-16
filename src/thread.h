@@ -31,7 +31,7 @@
 *****************************************************************************************/
 void* temperature_sensor_thread();
 void* light_sensor_thread();
-void* log_thread();
+void* log_thread(void* arg);
 
 
 #endif //I2C_H_

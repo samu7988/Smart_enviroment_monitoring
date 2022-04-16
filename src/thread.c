@@ -104,7 +104,7 @@ void* light_sensor_thread()
 }
 
 
-void* log_thread()
+void* log_thread(void* arg)
 {
     log_msg_t recv_msg_packet = {0};
     while(1)
@@ -117,7 +117,8 @@ void* log_thread()
         // pthread_mutex_unlock(&msg_queue_mutex);
 
         // pthread_mutex_lock(&log_file_mutex);
-        log_file = fopen("/LOG_FILE.txt","a+");
+        printf("\n\rOpening file %s",(char* )arg);
+        log_file = fopen(arg,"a+");
         if(recv_msg_packet.id == TEMPERATURE_SENSOR)
         {
             printf("\n\r[%lf][%d] Temperature: %lf celsius",recv_msg_packet.time,recv_msg_packet.id, recv_msg_packet.sensor_val);
