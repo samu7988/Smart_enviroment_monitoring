@@ -11,6 +11,7 @@
 #include "server.h"
 #include <pthread.h>
 #include "thread.h"
+#include "synchronization.h"
 #define TEMP_SENSOR_ADDRESS (0x48)
 #define THIGH_REG		(0x03)
 int main(void)
@@ -26,6 +27,9 @@ int main(void)
 
 	enable_lightsensor();
 	time_create();
+	register_signal_handler();
+	open_logger_message_queue();
+
 	//server_init();
 	pthread_t temperature_thread;
 	pthread_t light_thread;

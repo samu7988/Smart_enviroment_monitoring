@@ -19,12 +19,15 @@
 #include <signal.h>
 #include <stdio.h>
 #include "synchronization.h"
-#include <mqueue.h>
 /**************************************************************************************
 *					GLOBAL VARIABLE
 *******************************************************************************************/
 #define MAX_MSG (9)
 mqd_t* msg_queue_logger = NULL;
+FILE* log_file = NULL;
+pthread_mutex_t i2c_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t msg_queue_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t log_file_mutex = PTHREAD_MUTEX_INITIALIZER;
 /**********************************************************************************
 *				FUNCTION DEFINITION
 ***************************************************************************************/
@@ -34,8 +37,11 @@ void terminate_signal_handler(int num)
     {
         printf("\n\rTerminate all process");
         pthread_mutex_unlock(&i2c_mutex);
-        mq_close(msg_queue_logger);
-        mq_unlink("/msgqueue_logger");                           
+        pthread_mutex_unlock(&msg_queue_mutex);
+        pthread_mutex_unlock(&log_file_mutex);
+        mq_close(*msg_queue_logger);
+        mq_unlink("/msgqueue_logger");
+        fclose(log_file);                           
 
 
     }

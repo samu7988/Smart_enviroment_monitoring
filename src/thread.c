@@ -21,6 +21,7 @@
 #include <stddef.h>
 #include "timer.h"
 #include "synchronization.h"
+#include <pthread.h>
 /**************************************************************************************
 *					GLOBAL VARIABLE
 *******************************************************************************************/
@@ -55,7 +56,10 @@ void* temperature_sensor_thread()
             {
                 printf("\n\rread_temperature_value() returned 1");
             }
-            mq_send(msg_queue_logger,(char*)&msg_packet, sizeof(log_msg_t),0)
+            pthread_mutex_lock(&msg_queue_mutex);
+            mq_send(*msg_queue_logger,(char*)&msg_packet, sizeof(log_msg_t),0);
+            pthread_mutex_unlock(&msg_queue_mutex);
+
             //printf("\n\r[%lf]Temperature value: %lf",current_time,temperature);
             temp_sensor_time_expire = 0;
         }
@@ -82,7 +86,10 @@ void* light_sensor_thread()
             {
                 printf("\n\rread_light_value() returned 1");
             }
-            mq_send(msg_queue_logger,(char*)&msg_packet, sizeof(log_msg_t),0)
+
+            pthread_mutex_lock(&msg_queue_mutex);
+            mq_send(*msg_queue_logger,(char*)&msg_packet, sizeof(log_msg_t),0);
+            pthread_mutex_unlock(&msg_queue_mutex);
 
             // printf("\n\r[%lf]light value: %lf",current_time,light_value);
             light_sensor_time_expire = 0;
@@ -96,7 +103,23 @@ void* log_thread()
     log_msg_t recv_msg_packet = {0};
     while(1)
     {
-        mq_receive(msg_queue_logger, (char*)&recv_msg_packet, sizeof(log_msg_t), NULL);
+        pthread_mutex_lock(&msg_queue_mutex);
+        mq_receive(*msg_queue_logger, (char*)&recv_msg_packet, sizeof(log_msg_t), NULL);
+        pthread_mutex_unlock(&msg_queue_mutex);
+
+        pthread_mutex_lock(&log_file_mutex);
+        log_file = fopen("LOG_FILE.txt","a++");
+        if(recv_msg_packet.id == TEMPERATURE_SENSOR)
+        {
+            fprintf(log_file,"\n\r[%lf][%d] Temperature: %lf celsius",recv_msg_packet.time,recv_msg_packet.id, recv_msg_packet.sensor_val);
+        }
+        else if(recv_msg_packet.id == LIGHT_SENSOR)
+        {
+            fprintf(log_file,"\n\r[%lf][%d] Light value: %lf ",recv_msg_packet.time,recv_msg_packet.id, recv_msg_packet.sensor_val);
+        }
+        fclose(log_file);
+        pthread_mutex_unlock(&log_file_mutex);
+
         
     }
 

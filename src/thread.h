@@ -29,8 +29,9 @@
 /***************************************************************************************
 *				FUNCTION PROTOTYPE
 *****************************************************************************************/
-void* temperature_sensor_thread(void* param);
-void* light_sensor_thread(void* param);
+void* temperature_sensor_thread();
+void* light_sensor_thread();
+void* log_thread();
 
 
 #endif //I2C_H_
