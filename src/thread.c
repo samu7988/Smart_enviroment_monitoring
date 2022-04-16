@@ -56,12 +56,12 @@ void* temperature_sensor_thread()
             {
                 printf("\n\rread_temperature_value() returned 1");
             }
-            // pthread_mutex_lock(&msg_queue_mutex);
+            pthread_mutex_lock(&msg_queue_mutex);
             if(mq_send(msg_queue_logger,(char*)&msg_packet, sizeof(log_msg_t),0) == -1)
             {
                 printf("mq_send() failed in temperature thread");
             }
-            // pthread_mutex_unlock(&msg_queue_mutex);
+            pthread_mutex_unlock(&msg_queue_mutex);
 
             printf("\n\r[%lf]Temperature value: %lf",msg_packet.time, msg_packet.sensor_val);
             temp_sensor_time_expire = 0;
@@ -90,12 +90,12 @@ void* light_sensor_thread()
                 printf("\n\rread_light_value() returned 1");
             }
 
-            // pthread_mutex_lock(&msg_queue_mutex);
+            pthread_mutex_lock(&msg_queue_mutex);
             if(mq_send(msg_queue_logger,(char*)&msg_packet, sizeof(log_msg_t),0) == -1)
             {
                 printf("\n\rmq_send() failed in light sensor thread");
             }
-            // pthread_mutex_unlock(&msg_queue_mutex);
+            pthread_mutex_unlock(&msg_queue_mutex);
 
             printf("\n\r[%lf]light value: %lf",msg_packet.time,msg_packet.sensor_val);
             light_sensor_time_expire = 0;
@@ -109,12 +109,10 @@ void* log_thread(void* arg)
     log_msg_t recv_msg_packet = {0};
     while(1)
     {
-        // pthread_mutex_lock(&msg_queue_mutex);
         if(mq_receive(msg_queue_logger, (char*)&recv_msg_packet, sizeof(log_msg_t), NULL) == -1)
         {
             printf("\n\rmq_receive failed");
         }
-        // pthread_mutex_unlock(&msg_queue_mutex);
 
         // pthread_mutex_lock(&log_file_mutex);
         printf("\n\rOpening file %s",(char* )arg);

@@ -27,6 +27,14 @@ typedef enum
     LIGHT_SENSOR
 }thread_id_e;
 
+typedef enum
+{
+    TEMPERATURE_TIME_EXPIRE,
+    LIGHT_TIME_EXPIRE,
+    TEMPERATURE_ALIVE,
+    LIGHT_ALIVE,
+    LOGGER_ALIVE,
+}event_e;
 
 typedef struct
 {

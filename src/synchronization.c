@@ -19,6 +19,7 @@
 #include <signal.h>
 #include <stdio.h>
 #include "synchronization.h"
+#include <stdlib.h>
 /**************************************************************************************
 *					GLOBAL VARIABLE
 *******************************************************************************************/
@@ -42,7 +43,7 @@ void terminate_signal_handler(int num)
         mq_close(msg_queue_logger);
         mq_unlink("/msgqueue_logger");
         fclose(log_file);                           
-
+        exit(0);
 
     }
 }
@@ -86,5 +87,11 @@ void open_logger_message_queue()
         printf("\n\rLogger message queue opened successfully");
     }
     printf("\n\r Exiting open logger message queue");
+
+}
+
+
+void set_event(event_e event)
+{
 
 }
