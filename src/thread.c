@@ -114,8 +114,7 @@ void* log_thread(void* arg)
             printf("\n\rmq_receive failed");
         }
 
-        // pthread_mutex_lock(&log_file_mutex);
-        printf("\n\rOpening file %s",(char* )arg);
+        
         log_file = fopen(arg,"a+");
         if(recv_msg_packet.id == TEMPERATURE_SENSOR)
         {
@@ -128,7 +127,6 @@ void* log_thread(void* arg)
             fprintf(log_file,"\n\r[%lf][%d] Light value: %lf ",recv_msg_packet.time,recv_msg_packet.id, recv_msg_packet.sensor_val);
         }
         fclose(log_file);
-        // pthread_mutex_unlock(&log_file_mutex);
 
         
     }
