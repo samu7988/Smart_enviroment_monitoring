@@ -51,6 +51,7 @@ extern pthread_mutex_t msg_queue_mutex ;
 extern pthread_mutex_t log_file_mutex;
 extern mqd_t msg_queue_logger;
 extern FILE* log_file;
+extern int sockfd; 
 /***************************************************************************************
 *				FUNCTION PROTOTYPE
 *****************************************************************************************/

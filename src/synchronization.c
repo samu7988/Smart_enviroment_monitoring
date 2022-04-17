@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include "synchronization.h"
 #include <stdlib.h>
+#include <unistd.h>
 /**************************************************************************************
 *					GLOBAL VARIABLE
 *******************************************************************************************/
@@ -29,6 +30,7 @@ FILE* log_file = NULL;
 pthread_mutex_t i2c_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t msg_queue_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t log_file_mutex = PTHREAD_MUTEX_INITIALIZER;
+int sockfd = 0; 
 /**********************************************************************************
 *				FUNCTION DEFINITION
 ***************************************************************************************/
@@ -42,7 +44,8 @@ void terminate_signal_handler(int num)
         pthread_mutex_unlock(&log_file_mutex);
         mq_close(msg_queue_logger);
         mq_unlink("/msgqueue_logger");
-        fclose(log_file);                           
+        fclose(log_file);
+        close(sockfd);                          
         exit(0);
 
     }

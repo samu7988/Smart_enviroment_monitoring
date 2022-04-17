@@ -3,7 +3,7 @@
 
 CC = $(CROSS_COMPILE)gcc
 CFLAGS = -Wall -Werror
-SRCS = main.c timer.c i2c.c temperature_sensor.c lux_sensor.c synchronization.c thread.c #server.c
+SRCS = main.c timer.c i2c.c temperature_sensor.c lux_sensor.c synchronization.c thread.c server.c
 CLIENT_SRC = client.c
 LIBRARY = -lpthread -lrt -lm
 OBJS = $(SRCS:.c=.o) #replace .c file 
@@ -16,7 +16,7 @@ $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) $(LIBRARY)
 
 .c.o:
-	$(CC) -c  $(SRCS) 
+	$(CC) -c  $(SRCS)
 
 
 ifeq ($(CC),gcc)
