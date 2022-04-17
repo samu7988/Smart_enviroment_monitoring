@@ -25,26 +25,27 @@ int main(int argc, char** argv)
 	// 	printf("\n\rReceive data: %u",receive_data[i]);
 	// }
 
-	// enable_lightsensor();
-	// time_create();
-	// register_signal_handler();
-	// open_logger_message_queue();
+	enable_lightsensor();
+	time_create();
+	register_signal_handler();
+	open_logger_message_queue();
 
 	server_init();
-	// pthread_t temperature_thread;
-	// pthread_t light_thread;
-	// pthread_t logger_thread;
+	pthread_t temperature_thread;
+	pthread_t light_thread;
+	pthread_t logger_thread;
 	pthread_t serv_thread;
 
-	// pthread_create(&temperature_thread, NULL, temperature_sensor_thread, NULL);
-	// pthread_create(&light_thread, NULL, light_sensor_thread, NULL);
-	// pthread_create(&logger_thread, NULL, log_thread, argv[1]);
+	pthread_create(&temperature_thread, NULL, temperature_sensor_thread, NULL);
+	pthread_create(&light_thread, NULL, light_sensor_thread, NULL);
+	pthread_create(&logger_thread, NULL, log_thread, argv[1]);
 	pthread_create(&serv_thread, NULL, server_thread, NULL);
 
-	// pthread_join(temperature_thread, NULL);
-	// pthread_join(light_thread, NULL);
-	// pthread_join(logger_thread, NULL);
-	pthread_join(server_thread, NULL);
+	pthread_join(temperature_thread, NULL);
+	pthread_join(light_thread, NULL);
+	pthread_join(logger_thread, NULL);
+	pthread_join(serv_thread, NULL);
+
 	printf("Hello and welcome to ECEN5013!\n");
 	while(1);
 }
