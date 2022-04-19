@@ -152,7 +152,7 @@ void* server_thread()
         printf("%s %ld\n",buff,strlen(buff));
 		// print buffer which contains the client contents
 		// printf("From client: %s\t To client : ", buff);
-        if(strcmp("Temp",buff) == 0)
+        if(strncmp("Temp",buff,4) == 0)
         {
             printf("\n\rInside temperature");
           double temperature = 0.0;
@@ -160,7 +160,7 @@ void* server_thread()
 
           write(connfd,&temperature,sizeof(double));  
         }
-        else if(strcmp("Light",buff) == 0)
+        else if(strncmp("Light",buff,5) == 0)
         {
             printf("\n\rInside light");
             double light_val = 0.0;
