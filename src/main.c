@@ -31,6 +31,7 @@ int main(int argc, char** argv)
 	open_logger_message_queue();
 
 	server_init();
+	
 	pthread_t temperature_thread;
 	pthread_t light_thread;
 	pthread_t logger_thread;

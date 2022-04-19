@@ -63,19 +63,16 @@ void terminate_signal_handler(int num)
 
 void register_signal_handler()
 {
-    printf("\n\rEntering register signal handler");
     struct sigaction signals;
     signals.sa_flags = 0;
     signals.sa_handler = terminate_signal_handler;
     sigemptyset(&signals.sa_mask);
     sigaction(SIGINT,&signals,NULL);
-    printf("\n\rExiting register signal handler");
 
 }
 
 void open_logger_message_queue()
 {
-    printf("\n\rEntering open logger message queue");
     struct mq_attr msg_queue_attr;
     msg_queue_attr.mq_maxmsg = MAX_MSG;
     msg_queue_attr.mq_msgsize = sizeof(log_msg_t);
@@ -89,7 +86,6 @@ void open_logger_message_queue()
     {
         printf("\n\rLogger message queue opened successfully");
     }
-    printf("\n\r Exiting open logger message queue");
 
 }
 
