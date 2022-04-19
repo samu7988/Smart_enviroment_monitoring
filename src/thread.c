@@ -149,20 +149,23 @@ void* server_thread()
 
 		// read the message from client and copy it in buffer
 		read(connfd, buff, sizeof(buff));
+        printf("%s %ld\n",buff,strlen(buff));
 		// print buffer which contains the client contents
 		// printf("From client: %s\t To client : ", buff);
         if(strcmp("Temp",buff) == 0)
         {
+            printf("\n\rInside temperature");
           double temperature = 0.0;
           read_temperature_value(&temperature, TEMP_CELSIUS);
 
-          write(connfd,(double*)&temperature,sizeof(double));  
+          write(connfd,&temperature,sizeof(double));  
         }
         else if(strcmp("Light",buff) == 0)
         {
+            printf("\n\rInside light");
             double light_val = 0.0;
             read_light_value(&light_val);
-            write(connfd,(double*)&light_val,sizeof(double));
+            write(connfd,&light_val,sizeof(double));
         }
 
 		// copy server message in the buffer
@@ -176,7 +179,7 @@ void* server_thread()
 			printf("Server Exit...\n");
 			break;
 		}
-        
+
         bzero(buff, MAX);
 
 	}

@@ -19,7 +19,7 @@ void func(int sockfd)
         printf("Enter the string : ");
         n = 0;
         while ((buff[n++] = getchar()) != '\n');
-
+        buff[n] = '\0';
         write(sockfd, buff, sizeof(buff));
         double val;
         read(sockfd, &val, sizeof(double));
