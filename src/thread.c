@@ -25,6 +25,8 @@
 #include <pthread.h>
 #include <string.h>
 #include <unistd.h>
+#include "temperature_sensor.h"
+#include "lux_sensor.h"
 /**************************************************************************************
 *					GLOBAL VARIABLE
 *******************************************************************************************/
@@ -148,20 +150,34 @@ void* server_thread()
 		// read the message from client and copy it in buffer
 		read(connfd, buff, sizeof(buff));
 		// print buffer which contains the client contents
-		printf("From client: %s\t To client : ", buff);
-		bzero(buff, MAX);
-		n = 0;
-		// copy server message in the buffer
-		while ((buff[n++] = getchar()) != '\n')
-			;
+		// printf("From client: %s\t To client : ", buff);
+        if(strcmp("Temp",buff) == 0)
+        {
+          double temperature = 0.0;
+          read_temperature_value(&temperature, TEMP_CELSIUS);
 
-		// and send that buffer to client
-		write(connfd, buff, sizeof(buff));
+          write(connfd,(double*)&temperature,sizeof(double));  
+        }
+        else if(strcmp("Light",buff) == 0)
+        {
+            double light_val = 0.0;
+            read_light_value(&light_val);
+            write(connfd,(double*)&light_val,sizeof(double));
+        }
+
+		// copy server message in the buffer
+
+
 
 		// if msg contains "Exit" then server exit and chat ended.
-		if (strncmp("exit", buff, 4) == 0) {
+		if (strncmp("exit", buff, 4) == 0) 
+        {
+            close(sockfd);
 			printf("Server Exit...\n");
 			break;
 		}
+        
+        bzero(buff, MAX);
+
 	}
 } 
