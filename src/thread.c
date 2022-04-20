@@ -151,7 +151,7 @@ void* server_thread()
 		read(connfd, buff, sizeof(buff));
         printf("%s %ld\n",buff,strlen(buff));
 
-        if(strcmp("TempC\n",buff) == 0)
+        if(strcmp("Temp\n",buff) == 0)
         {
           printf("\n\rInside temperature");
           double temperature = 0.0;
@@ -159,7 +159,7 @@ void* server_thread()
 
           write(connfd,&temperature,sizeof(double));  
         }
-        else if(strcmp("TempK\n",buff) == 0)
+        else if(strcmp("Kelvin\n",buff) == 0)
         {
             printf("\n\rInside temperature");
           double temperature = 0.0;
@@ -167,7 +167,7 @@ void* server_thread()
 
           write(connfd,&temperature,sizeof(double));  
         }
-        else if(strcmp("TempF\n",buff) == 0)
+        else if(strcmp("Farhenheit\n",buff) == 0)
         {
             printf("\n\rInside temperature");
           double temperature = 0.0;
