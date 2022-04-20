@@ -150,13 +150,28 @@ void* server_thread()
 		// read the message from client and copy it in buffer
 		read(connfd, buff, sizeof(buff));
         printf("%s %ld\n",buff,strlen(buff));
-		// print buffer which contains the client contents
-		// printf("From client: %s\t To client : ", buff);
-        if(strcmp("Temp\n",buff) == 0)
+
+        if(strcmp("TempC\n",buff) == 0)
+        {
+          printf("\n\rInside temperature");
+          double temperature = 0.0;
+          read_temperature_value(&temperature, TEMP_CELSIUS);
+
+          write(connfd,&temperature,sizeof(double));  
+        }
+        else if(strcmp("TempK\n",buff) == 0)
         {
             printf("\n\rInside temperature");
           double temperature = 0.0;
-          read_temperature_value(&temperature, TEMP_CELSIUS);
+          read_temperature_value(&temperature, TEMP_KELVIN);
+
+          write(connfd,&temperature,sizeof(double));  
+        }
+        else if(strcmp("TempF\n",buff) == 0)
+        {
+            printf("\n\rInside temperature");
+          double temperature = 0.0;
+          read_temperature_value(&temperature, TEMP_FAHRENHEIT);
 
           write(connfd,&temperature,sizeof(double));  
         }
