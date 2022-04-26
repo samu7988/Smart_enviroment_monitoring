@@ -45,6 +45,18 @@ void func(int sockfd)
         {
             printf("\n\rServer: %lf lumen", val);
         }
+        else if(strcmp(buff, "Kelvin\n") == 0)
+        {
+            printf("\n\rFrom Server: %lf kelvin",val);
+        }
+        else if(strcmp(buff, "Fahrenheit\n") == 0)
+        {
+            printf("\n\rServer: %lf",val);
+        }
+        else 
+        {
+            printf("\n\rServer: %lf",val);
+        }
         if ((strncmp(buff, "exit", 4)) == 0) {
             printf("Client Exit...\n");
             break;
