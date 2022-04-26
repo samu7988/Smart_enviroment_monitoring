@@ -14,7 +14,22 @@
 #define SA struct sockaddr
 int connfd = 0;
 
-   
+
+
+ /***********************************************************************************************
+ * @brief  1) server(beaglebone black ) initialization and socket creating binding 
+ * 			and listening and accepting the clinet connection
+ *         2) assigning the IP and PORT (7000)
+ * 
+ *
+ *
+ * @param address:none
+ *
+ * @return bool 
+ *********************************************************************************************/
+
+
+  
 // Driver function
 bool server_init()
 {

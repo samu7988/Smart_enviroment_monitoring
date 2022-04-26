@@ -10,20 +10,41 @@
 #define MAX 80
 #define PORT 7000
 #define SA struct sockaddr
+
+
+/***********************************************************************************************
+ * @brief func() is for communication with server or msg passing to the server 
+ * 
+ *
+ *
+ * @param : 
+ *
+ * @return : none
+ *********************************************************************************************/
+
+
+
 void func(int sockfd)
 {
     char buff[MAX];
     int n;
     for (;;) {
         bzero(buff, sizeof(buff));
-        printf("Enter the string : ");
+        printf("\n\rEnter the string(Temp or Light): ");
         n = 0;
         while ((buff[n++] = getchar()) != '\n');
         buff[n] = '\0';
         write(sockfd, buff, sizeof(buff));
         double val;
         read(sockfd, &val, sizeof(double));
-        printf("From Server : %lf", val);
+        if(strcmp(buff, "Temp\n") == 0)
+        {
+            printf("\n\rFrom Server : %lf celsius", val);
+        }
+        else if(strcmp(buff, "Light\n") == 0)
+        {
+            printf("\n\rServer: %lf lumen", val);
+        }
         if ((strncmp(buff, "exit", 4)) == 0) {
             printf("Client Exit...\n");
             break;
@@ -31,6 +52,23 @@ void func(int sockfd)
     }
 }
    
+
+
+/***********************************************************************************************
+ * @brief : client socket creating 
+ *          assigning IP to the PORT
+ *          
+ *
+ * 
+ *
+ *
+ * @param address:
+ *
+ * @return 
+ *********************************************************************************************/
+
+
+
 int main()
 {
     int sockfd;

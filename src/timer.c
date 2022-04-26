@@ -12,6 +12,17 @@ struct sigevent signal_spec;
 timer_t timer_id;
 struct itimerspec timer_setting;
 
+
+/***********************************************************************************************
+ * @brief  timer handler 
+ * 
+ *
+ *
+ * @param :union sigval timer_data
+ *
+ * @return 
+ *********************************************************************************************/
+
 void timer_handler(union sigval timer_data)
 {
 
@@ -26,6 +37,15 @@ void timer_handler(union sigval timer_data)
 	
 }
 
+/***********************************************************************************************
+ * @brief  timer create() creating the timer which fires every 5 sec 
+ * 
+ *
+ *
+ * @param :union sigval timer_data
+ *
+ * @return none
+ *********************************************************************************************/
 
 void time_create()
 {
@@ -40,6 +60,15 @@ void time_create()
 	timer_settime(timer_id,0,&timer_setting,NULL);
 }
 
+/***********************************************************************************************
+ * @brief gettingthe timestamps of the timer when it fires after every 5 sec 
+ * 
+ *
+ *
+ * @param :
+ *
+ * @return 
+ *********************************************************************************************/
 
 double get_time()
 {

@@ -14,6 +14,8 @@
 #include "synchronization.h"
 #define TEMP_SENSOR_ADDRESS (0x48)
 #define THIGH_REG		(0x03)
+
+
 int main(int argc, char** argv)
 {
 	// uint8_t buffer[2] = {0xFE, 0x8A};
@@ -30,6 +32,7 @@ int main(int argc, char** argv)
 	register_signal_handler();
 	open_logger_message_queue();
 
+	//server initialization
 	server_init();
 	
 	pthread_t temperature_thread;
@@ -37,6 +40,8 @@ int main(int argc, char** argv)
 	pthread_t logger_thread;
 	pthread_t serv_thread;
 
+	//create respective threads for temp, light sensors and logging the data
+	
 	pthread_create(&temperature_thread, NULL, temperature_sensor_thread, NULL);
 	pthread_create(&light_thread, NULL, light_sensor_thread, NULL);
 	pthread_create(&logger_thread, NULL, log_thread, argv[1]);

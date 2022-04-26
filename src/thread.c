@@ -1,7 +1,7 @@
 /********************************************************************************************
-*					FILENAME:c
+*					FILENAME:thread.c
 **********************************************************************************************/
-/* Title: 
+/* Title: Thread.c
  * Brief: 
  * Author: Sayali Mule
  * Date Created: April 9, 2022
@@ -74,6 +74,15 @@ void* temperature_sensor_thread()
     }
 }
 
+/***********************************************************************************************
+ * @brief 
+ *
+ *
+ *
+ * @param address:
+ *
+ * @return 
+ *********************************************************************************************/
 
 void* light_sensor_thread()
 {
@@ -108,6 +117,15 @@ void* light_sensor_thread()
     }
 }
 
+/***********************************************************************************************
+ * @brief 
+ *
+ *
+ *
+ * @param address:
+ *
+ * @return 
+ *********************************************************************************************/
 
 void* log_thread(void* arg)
 {
@@ -137,6 +155,15 @@ void* log_thread(void* arg)
     }
 
 }
+/***********************************************************************************************
+ * @brief 
+ *
+ *
+ *
+ * @param address:
+ *
+ * @return 
+ *********************************************************************************************/
 
 void* server_thread()
 {
@@ -167,14 +194,14 @@ void* server_thread()
 
           write(connfd,&temperature,sizeof(double));  
         }
-        else if(strcmp("Farhenheit\n",buff) == 0)
-        {
-            printf("\n\rInside temperature");
-          double temperature = 0.0;
-          read_temperature_value(&temperature, TEMP_FAHRENHEIT);
+        // else if(strcmp("Farhenheit\n",buff) == 0)
+        // {
+        //     printf("\n\rInside temperature");
+        //   double temperature = 0.0;
+        //   read_temperature_value(&temperature, TEMP_FAHRENHEIT);
 
-          write(connfd,&temperature,sizeof(double));  
-        }
+        //   write(connfd,&temperature,sizeof(double));  
+        // }
         else if(strcmp("Light\n",buff) == 0)
         {
             printf("\n\rInside light");
