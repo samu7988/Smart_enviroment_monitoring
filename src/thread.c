@@ -178,7 +178,7 @@ void* server_thread()
 		read(connfd, buff, sizeof(buff));
         printf("%s %ld\n",buff,strlen(buff));
 
-        if(strcmp("Temp\n",buff) == 0)
+        if(strcmp("1\n",buff) == 0)
         {
           printf("\n\rInside temperature");
           double temperature = 0.0;
@@ -186,7 +186,7 @@ void* server_thread()
 
           write(connfd,&temperature,sizeof(double));  
         }
-        else if(strcmp("Kelvin\n",buff) == 0)
+        else if(strcmp("3\n",buff) == 0)
         {
             printf("\n\rInside temperature");
           double temperature = 0.0;
@@ -194,15 +194,15 @@ void* server_thread()
 
           write(connfd,&temperature,sizeof(double));  
         }
-        // else if(strcmp("Farhenheit\n",buff) == 0)
-        // {
-        //     printf("\n\rInside temperature");
-        //   double temperature = 0.0;
-        //   read_temperature_value(&temperature, TEMP_FAHRENHEIT);
+        else if(strcmp("4\n",buff) == 0)
+        {
+            printf("\n\rInside temperature");
+          double temperature = 0.0;
+          read_temperature_value(&temperature, TEMP_FAHRENHEIT);
 
-        //   write(connfd,&temperature,sizeof(double));  
-        // }
-        else if(strcmp("Light\n",buff) == 0)
+          write(connfd,&temperature,sizeof(double));  
+        }
+        else if(strcmp("2\n",buff) == 0)
         {
             printf("\n\rInside light");
             double light_val = 0.0;
@@ -210,13 +210,11 @@ void* server_thread()
             write(connfd,&light_val,sizeof(double));
         }
 
-		// copy server message in the buffer
-
-
-
 		// if msg contains "Exit" then server exit and chat ended.
-		if (strncmp("exit", buff, 4) == 0) 
+		else if (strcmp("5\n", buff) == 0) 
         {
+            double val = 5;
+            write(connfd,&val,sizeof(double));
             close(sockfd);
 			printf("Server Exit...\n");
 			break;

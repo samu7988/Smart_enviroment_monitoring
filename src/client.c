@@ -30,37 +30,42 @@ void func(int sockfd)
     int n;
     for (;;) {
         bzero(buff, sizeof(buff));
-        printf("\n\rEnter the string(Temp or Light): ");
+        printf("\n\rEnter 1.Temp in celsius \n \
+                          2.Light \n \
+                          3.Temp in Kelvin \n  \
+                          4.Temp in Fahrenheit \n  ");
+
         n = 0;
         while ((buff[n++] = getchar()) != '\n');
         buff[n] = '\0';
         write(sockfd, buff, sizeof(buff));
         double val;
         read(sockfd, &val, sizeof(double));
-        if(strcmp(buff, "Temp\n") == 0)
+        if(strcmp(buff, "1\n") == 0)
         {
             printf("\n\rFrom Server : %lf celsius", val);
         }
-        else if(strcmp(buff, "Light\n") == 0)
+        else if(strcmp(buff, "2\n") == 0)
         {
             printf("\n\rServer: %lf lumen", val);
         }
-        else if(strcmp(buff, "Kelvin\n") == 0)
+        else if(strcmp(buff, "3\n") == 0)
         {
             printf("\n\rFrom Server: %lf kelvin",val);
         }
-        else if(strcmp(buff, "Fahrenheit\n") == 0)
+        else if(strcmp(buff, "4\n") == 0)
         {
-            printf("\n\rServer: %lf",val);
+            printf("\n\rServer: %lf fahrenheit",val);
+        }
+        else if ((strcmp(buff, "5\n")) == 0) {
+            printf("Client Exit...\n");
+            break;
         }
         else 
         {
             printf("\n\rServer: %lf",val);
         }
-        if ((strncmp(buff, "exit", 4)) == 0) {
-            printf("Client Exit...\n");
-            break;
-        }
+
     }
 }
    
